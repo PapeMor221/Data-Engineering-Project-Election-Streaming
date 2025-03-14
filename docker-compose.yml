@@ -42,6 +42,18 @@ services:
       - "5432:5432" # pour un accès depuis l'extérieur (optionnel)
     #volumes:
     #  - postgres-data:/var/lib/postgresql/data # Persistance des données (optionnel)
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - election_network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
     networks:
       - election_network
 
@@ -69,5 +81,8 @@ services:
     networks:
       - election_network
 
+volumes:
+  postgres-data:
+  
 networks:
   election_network:
