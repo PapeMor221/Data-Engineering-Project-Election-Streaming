@@ -46,11 +46,7 @@ Ce projet simule un système de vote en temps réel et met en œuvre un pipeline
 1.  Cloner le dépôt.
 2.  Installer **Docker** et **Docker Compose**.
 3.  Exécuter `docker compose up -d`.
-4.  Accéder à **Grafana** via `http://localhost:3000`.
-
-## **Contributions**
-
-Les contributions sont les bienvenues ! N'hésitez pas à soumettre des pull requests ou à ouvrir des issues pour signaler des bugs ou proposer des améliorations.
+4.  Accéder à **Grafana** via `http://localhost:3000
 
 ## **Auteurs**
 
