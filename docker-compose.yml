@@ -10,6 +10,11 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - election_network
+    healthcheck:
+      test: ["CMD", "zkCli.sh", "-server", "localhost:2181", "ls", "/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -32,19 +37,6 @@ services:
     networks:
       - election_network
 
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: papamor
-      POSTGRES_PASSWORD: papamor
-      POSTGRES_DB: ElectionDB
-    ports:
-      - "5432:5432" # pour un accès depuis l'extérieur (optionnel)
-    #volumes:
-    #  - postgres-data:/var/lib/postgresql/data # Persistance des données (optionnel)
-    networks:
-      - election_network
-
   generate_data:
     build:
       context: .
@@ -64,10 +56,52 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
     environment:
       SPARK_LOCAL_IP: spark_streaming
     networks:
       - election_network
 
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: election_user
+      POSTGRES_PASSWORD: election_password
+      POSTGRES_DB: election_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - election_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "election_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - election_network
+
+
 networks:
   election_network:
+
+volumes:
+  postgres_data:
+  grafana_data:

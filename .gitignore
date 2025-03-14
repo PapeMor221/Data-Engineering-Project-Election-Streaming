@@ -1,0 +1,33 @@
+# Logs et fichiers temporaires
+*.log
+*.out
+*.err
+*.pid
+nohup.out
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Docker
+*.tar
+*.sock
+docker-compose.override.yml
+.env
+
+# Build et dépendances
+node_modules/
+dist/
+build/
+target/
+
+# JetBrains, VS Code et autres IDE
+.idea/
+.vscode/
+*.iml

@@ -1,7 +1,17 @@
 FROM bitnami/spark:3.5.0
+
+# Set the working directory
 WORKDIR /app
+
+# Install PostgreSQL JDBC driver
+ADD https://jdbc.postgresql.org/download/postgresql-42.6.0.jar /opt/bitnami/spark/jars/
+
+# Copy application files
 COPY spark_streaming.py .
 COPY requirements.txt .
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["spark-submit", "--packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0", "spark_streaming.py"]
+# Use spark-submit to run the application
+CMD ["spark-submit", "--packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,org.postgresql:postgresql:42.6.0", "--driver-class-path", "/opt/bitnami/spark/jars/postgresql-42.6.0.jar", "spark_streaming.py"]
