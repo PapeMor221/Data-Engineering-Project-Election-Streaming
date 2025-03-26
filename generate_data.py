@@ -6,20 +6,20 @@ from kafka import KafkaProducer
 
 # Structure administrative du Sénégal
 REGIONS = {
-    "Dakar": ["Dakar", "Guédiawaye", "Pikine", "Rufisque"],
-    "Thiès": ["Mbour", "Thiès", "Tivaouane"],
-    "Diourbel": ["Bambey", "Diourbel", "Mbacké"],
-    "Saint-Louis": ["Dagana", "Podor", "Saint-Louis"],
-    "Louga": ["Kébémer", "Linguère", "Louga"],
-    "Ziguinchor": ["Bignona", "Oussouye", "Ziguinchor"],
-    "Matam": ["Kanel", "Matam", "Ranérou-Ferlo"],
-    "Kaolack": ["Kaolack", "Guinguinéo", "Nioro du Rip"],
-    "Fatick": ["Fatick", "Foundiougne", "Gossas"],
-    "Kolda": ["Kolda", "Médina Yoro Foulah", "Vélingara"],
-    "Tambacounda": ["Bakel", "Goudiry", "Koumpentoum", "Tambacounda"],
-    "Kaffrine": ["Birkelane", "Kaffrine", "Koungheul", "Malem Hodar"],
-    "Kédougou": ["Kédougou", "Salémata", "Saraya"],
-    "Sédhiou": ["Bounkiling", "Goudomp", "Sédhiou"]
+    "Dakar": (["Dakar", "Guédiawaye", "Pikine", "Rufisque"], 26.03),
+    "Thiès": (["Mbour", "Thiès", "Tivaouane"], 14.26),
+    "Diourbel": (["Bambey", "Diourbel", "Mbacké"], 9.04),
+    "Saint-Louis": (["Dagana", "Podor", "Saint-Louis"], 8.02),
+    "Louga": (["Kébémer", "Linguère", "Louga"], 6.55),
+    "Ziguinchor": (["Bignona", "Oussouye", "Ziguinchor"], 4.38),
+    "Matam": (["Kanel", "Matam", "Ranérou-Ferlo"], 4.49),
+    "Kaolack": (["Kaolack", "Guinguinéo", "Nioro du Rip"], 6.60),
+    "Fatick": (["Fatick", "Foundiougne", "Gossas"], 4.96),
+    "Kolda": (["Kolda", "Médina Yoro Foulah", "Vélingara"], 3.78),
+    "Tambacounda": (["Bakel", "Goudiry", "Koumpentoum", "Tambacounda"], 4.08),
+    "Kaffrine": (["Birkelane", "Kaffrine", "Koungheul", "Malem Hodar"], 3.81),
+    "Kédougou": (["Kédougou", "Salémata", "Saraya"], 1.03),
+    "Sédhiou": (["Bounkiling", "Goudomp", "Sédhiou"], 2.99)
 }
 
 # Préférences électorales par région (biais régionaux)
@@ -97,7 +97,7 @@ candidats = [
 ]
 
 # Initialisation de Faker
-fake = Faker('fr')  # Configuration pour le Sénégal
+fake = Faker('fr')
 
 # Création du producteur Kafka
 producer = KafkaProducer(bootstrap_servers='kafka:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
@@ -107,7 +107,7 @@ def generer_vote():
     region = random.choice(list(REGIONS.keys()))
     
     # Sélection d'une ville aléatoire dans la région
-    ville = random.choice(REGIONS[region])
+    ville = random.choice(REGIONS[region][0])
     
     # Générer un âge aléatoire
     age = random.randint(18, 90)
@@ -171,4 +171,4 @@ if __name__ == "__main__":
         vote = generer_vote()
         producer.send('votes', value=vote)
         #print(f"Vote envoyé : {vote}")
-        time.sleep(0.2)  # Simule un flux en temps réel
+        time.sleep(0.5)  # Simule un flux en temps réel
