@@ -87,6 +87,24 @@ services:
     networks:
       - election_network
 
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile-dashboard
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: papamor
+      DATABASE_PASSWORD: papamor
+      DATABASE_NAME: ElectionDB
+    restart: always
+    networks:
+      - election_network
+
 volumes:
   postgres-data:
   

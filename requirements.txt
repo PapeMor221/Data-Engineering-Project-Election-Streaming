@@ -2,3 +2,6 @@ faker
 kafka-python
 pyspark
 psycopg2-binary
+streamlit
+plotly
+pandas
