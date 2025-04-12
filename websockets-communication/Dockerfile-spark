@@ -1,0 +1,5 @@
+FROM bitnami/spark:3.5.0
+WORKDIR /app
+RUN pip install pyspark websockets
+COPY spark_streaming.py .
+CMD [ "spark-submit", "--packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0", "spark_streaming.py" ]
