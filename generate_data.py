@@ -24,43 +24,43 @@ REGIONS = {
 
 # Préférences électorales par région (biais régionaux)
 CANDIDATE_REGIONAL_BIAS = {
-    "Dakar": {"Bassirou Diomaye": 1.8, "Amadou": 1.2, "Khalifa": 1.1},
-    "Thiès": {"Amadou": 1.5, "Bassirou Diomaye": 1.4, "Idrissa": 1.3},
-    "Diourbel": {"Bassirou Diomaye": 1.6, "Khalifa": 1.2, "Idrissa": 1.1},
-    "Saint-Louis": {"Amadou": 1.5, "Bassirou Diomaye": 1.2, "Khalifa": 1.1},
-    "Louga": {"Amadou": 1.4, "Khalifa": 1.1, "Anta Babacar": 1.3},
-    "Ziguinchor": {"Bassirou Diomaye": 1.7, "Khalifa": 1.0, "Idrissa": 1.1},
-    "Matam": {"Amadou": 1.8, "Idrissa": 1.1, "Khalifa": 1.0},
-    "Kaolack": {"Bassirou Diomaye": 1.5, "Amadou": 1.2, "Khalifa": 1.3},
-    "Fatick": {"Bassirou Diomaye": 1.6, "Amadou": 1.1, "Anta Babacar": 1.0},
-    "Kolda": {"Bassirou Diomaye": 1.5, "Amadou": 1.2, "Khalifa": 1.1},
-    "Tambacounda": {"Amadou": 1.4, "Bassirou Diomaye": 1.3, "Idrissa": 1.1},
-    "Kaffrine": {"Bassirou Diomaye": 1.5, "Amadou": 1.2, "Khalifa": 1.1},
-    "Kédougou": {"Amadou": 1.4, "Bassirou Diomaye": 1.3, "Issa": 1.1},
-    "Sédhiou": {"Bassirou Diomaye": 1.6, "Amadou": 1.1, "Khalifa": 1.0}
+    "Dakar": {"Bassirou Diomaye": 4.5, "Amadou": 3.4, "Khalifa": 2.2},
+    "Thiès": {"Amadou": 1.9, "Bassirou Diomaye": 3.5, "Idrissa": 2.2},
+    "Diourbel": {"Bassirou Diomaye": 2.4, "Khalifa": 0.7, "Idrissa": 0.5},
+    "Saint-Louis": {"Amadou": 1.9, "Bassirou Diomaye": 2.2, "Khalifa": 0.6},
+    "Louga": {"Amadou": 2.8, "Khalifa": 0.5, "Anta Babacar": 0.8},
+    "Ziguinchor": {"Bassirou Diomaye": 2.2, "Khalifa": 0.3, "Idrissa": 0.4},
+    "Matam": {"Amadou": 3.3, "Idrissa": 0.4, "Khalifa": 0.2},
+    "Kaolack": {"Bassirou Diomaye": 1.8, "Amadou": 0.9, "Khalifa": 0.7},
+    "Fatick": {"Bassirou Diomaye": 2.1, "Amadou": 0.6, "Anta Babacar": 0.3},
+    "Kolda": {"Bassirou Diomaye": 1.9, "Amadou": 0.8, "Khalifa": 0.5},
+    "Tambacounda": {"Amadou": 1.7, "Bassirou Diomaye": 1.4, "Idrissa": 0.6},
+    "Kaffrine": {"Bassirou Diomaye": 1.8, "Amadou": 0.9, "Khalifa": 0.5},
+    "Kédougou": {"Amadou": 1.6, "Bassirou Diomaye": 1.3, "Issa": 0.4},
+    "Sédhiou": {"Bassirou Diomaye": 2.0, "Amadou": 0.7, "Khalifa": 0.3}
 }
 
 # Ajout du biais par âge
 CANDIDATE_AGE_BIAS = {
     "Bassirou Diomaye": {
-        "18-25": 1.8,  # L'espoir de la jeunesse
-        "26-35": 1.6,
-        "36-45": 1.3,
-        "46-60": 1.0,
-        "60+": 0.7     # Moins populaire chez les vieux
+        "18-25": 4.8,  # L'espoir de la jeunesse
+        "26-35": 4.8,
+        "36-45": 3.7,
+        "46-60": 3.0,
+        "60+": 2.7     # Moins populaire chez les vieux
     },
     "Amadou": {
-        "18-25": 0.9,
-        "26-35": 1.1,
+        "18-25": 1.9,
+        "26-35": 2.1,
         "36-45": 1.3,
-        "46-60": 1.5,
-        "60+": 1.4     # Plus populaire chez les vieux
+        "46-60": 2.5,
+        "60+": 3.9     # Plus populaire chez les vieux
     },
     "Khalifa": {
-        "18-25": 0.8,
+        "18-25": 0.3,
         "26-35": 1.0,
-        "36-45": 1.2,
-        "46-60": 1.4,
+        "36-45": 0.2,
+        "46-60": 0.4,
         "60+": 1.2
     },
     "Idrissa": {
@@ -73,14 +73,14 @@ CANDIDATE_AGE_BIAS = {
     "Issa": {
         "18-25": 0.5,
         "26-35": 0.7,
-        "36-45": 1.0,
+        "36-45": 0.0,
         "46-60": 0.9,
         "60+": 0.8
     },
     "Anta Babacar": {
-        "18-25": 1.2,
-        "26-35": 1.1,
-        "36-45": 0.9,
+        "18-25": 0.2,
+        "26-35": 0.3,
+        "36-45": 0.5,
         "46-60": 0.8,
         "60+": 0.7
     }
@@ -103,8 +103,13 @@ fake = Faker('fr')
 producer = KafkaProducer(bootstrap_servers='kafka:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 
 def generer_vote():
-    # Sélection d'une région aléatoire
-    region = random.choice(list(REGIONS.keys()))
+    
+    regions = list(REGIONS.keys())
+    regions_weights = [REGIONS[region][1] for region in regions]  # On récupère les pourcentages
+    
+    # Sélection d'une région pondérée par son pourcentage
+    region = random.choices(regions, weights=regions_weights, k=1)[0]
+
     
     # Sélection d'une ville aléatoire dans la région
     ville = random.choice(REGIONS[region][0])
@@ -156,7 +161,8 @@ def generer_vote():
         "cni": fake.ssn(),
         "nom": fake.last_name(),
         "prenom": fake.first_name(),
-        "lieu_vote": ville,
+        "region": region,
+        "departement": ville,
         "sexe": random.choice(["M", "F"]),
         "age": age,
         "candidat_nom": selected_candidate["nom"],
@@ -171,4 +177,4 @@ if __name__ == "__main__":
         vote = generer_vote()
         producer.send('votes', value=vote)
         #print(f"Vote envoyé : {vote}")
-        time.sleep(0.5)  # Simule un flux en temps réel
+        time.sleep(0.2)  # Simule un flux en temps réel

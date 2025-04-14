@@ -270,9 +270,12 @@ Ce tableau de bord présente les résultats des élections présidentielles du S
 Les données sont mises à jour automatiquement à mesure que les votes sont comptabilisés.
 """)
 
+
 last_update = time.strftime("%d/%m/%Y à %H:%M:%S")
 st.sidebar.write(f"Dernière mise à jour: {last_update}")
 
 # Ajout d'un bouton de rafraîchissement
 if st.sidebar.button("Rafraîchir les données"):
     st.rerun()
+
+
