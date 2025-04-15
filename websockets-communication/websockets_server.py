@@ -14,13 +14,15 @@ async def handler(websocket):
         async for message in websocket:
             logging.info(f"Message reçu de {websocket.remote_address} : {message}") 
         
-            await asyncio.gather(*[client.send(message) for client in clients])
+            await asyncio.gather(
+                *[client.send(message) for client in clients if client != websocket],
+                return_exceptions=True)
     
     except websockets.exceptions.ConnectionClosed as e:
         logging.warning(f"Client déconnecté : {websocket.remote_address} ({e})") 
         
     finally:
-        clients.remove(websocket)
+        clients.discard(websocket)
         logging.info(f"Client supprimé : {websocket.remote_address}")
 
 # Démarrage du serveur WebSocket
