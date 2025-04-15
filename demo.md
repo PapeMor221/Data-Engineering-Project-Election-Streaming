@@ -1,3 +1,9 @@
-##Voici une petite démo du dasboard utilisant des websockets
+## Démo du dasboard utilisant les websockets
 
-![](https://github.com/PapeMor221/Data-Engineering-Project-Election-Streaming/blob/marieme/websockets-communication/Dasboard_websocket_avecBouton.gif)
+### Rafraîchissement à l'aide d'un bouton
+
+![](https://github.com/PapeMor221/Data-Engineering-Project-Election-Streaming/blob/marieme/websockets-communication/Dashboard_websocket_avecBouton.gif)
+
+### Rafraîchissement automatique
+
+![](https://github.com/PapeMor221/Data-Engineering-Project-Election-Streaming/blob/marieme/websockets-communication/Dashboard_websocket_sansBouton.gif)

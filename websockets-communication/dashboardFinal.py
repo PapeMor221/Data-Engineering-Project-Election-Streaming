@@ -7,7 +7,7 @@ import json
 import altair as alt
 import time
 from streamlit.runtime.scriptrunner import add_script_run_ctx
-
+from streamlit_autorefresh import st_autorefresh
 
 #   === Le dashboard marche bien! ===
 #   Graphes choisis : 
@@ -22,6 +22,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+st_autorefresh(interval=5000, key="autorefresh")
 
 # Initialisation des états
 if "votes_candidat_df" not in st.session_state:
@@ -124,8 +126,8 @@ update_aggregations()
 st.sidebar.title("🧾 Informations")
 st.sidebar.markdown("📡 Tableau de bord des élections présidentielles du Sénégal.")
 st.sidebar.write(f"🕒 Dernière mise à jour : `{st.session_state.last_update}`")
-if st.sidebar.button("🔄 Rafraîchir maintenant"):
-    st.rerun()
+#if st.sidebar.button("🔄 Rafraîchir maintenant"):
+#    st.rerun()
 
 st.title("📡 Suivi des élections présidentielles au Sénégal 🇸🇳")
 st.subheader("📈 Statistiques Globales")
@@ -161,8 +163,7 @@ with tab1:
         st.subheader("📌 Répartition par tranche d'âge")
         age_df = st.session_state.votes_age_df
         if not age_df.empty:
-            age_agg = age_df.groupby("age_group", as_index=False)["votes_par_age"].sum()
-            pie = alt.Chart(age_agg).mark_arc().encode(
+            pie = alt.Chart(age_df).mark_arc().encode(
                 theta="votes_par_age:Q",
                 color="age_group:N",
                 tooltip=["age_group:N", "votes_par_age:Q"]
@@ -172,9 +173,7 @@ with tab1:
         st.subheader("📌 Répartition par genre")
         genre_df = st.session_state.votes_genre_df
         if not genre_df.empty:
-            print("**Genre DataFrame:", genre_df.head())  # Debugging line
-            genre_agg = genre_df.groupby("sexe", as_index=False)["votes_par_sexe"].sum()
-            pie = alt.Chart(genre_agg).mark_arc().encode(
+            pie = alt.Chart(genre_df).mark_arc().encode(
                 theta="votes_par_sexe:Q",
                 color="sexe:N",
                 tooltip=["sexe:N", "votes_par_sexe:Q"]
